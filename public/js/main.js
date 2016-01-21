@@ -19032,13 +19032,13 @@ var List = React.createClass({
   displayName: 'List',
 
   render: function () {
-    var createItem = function (text, index) {
-      return React.createElement(ListItem, { key: index + text, text: text });
+    var createListItem = function (item, text) {
+      return React.createElement(ListItem, { text: item, key: text + item });
     };
     return React.createElement(
       'ul',
       null,
-      this.props.items.map(createItem)
+      this.props.items.map(createListItem)
     );
   }
 });
@@ -19055,11 +19055,7 @@ var ListItem = React.createClass({
     return React.createElement(
       'li',
       null,
-      React.createElement(
-        'h4',
-        null,
-        this.props.text
-      )
+      this.props.text
     );
   }
 });
@@ -19076,15 +19072,14 @@ var ListManager = React.createClass({
   getInitialState: function () {
     return { items: [], newItemText: '' };
   },
-  onChange: function (element) {
-    this.setState({ newItemText: element.target.value });
+  onChange: function (elem) {
+    this.setState({ newItemText: elem.target.value });
   },
   handleSubmit: function (event) {
     event.preventDefault();
 
     var currentItems = this.state.items;
-    // this.props is ONLY ever readOnly
-    // this.state is for data the changes, muteable
+
     currentItems.push(this.state.newItemText);
 
     this.setState({ items: currentItems, newItemText: '' });
@@ -19094,7 +19089,7 @@ var ListManager = React.createClass({
       'div',
       null,
       React.createElement(
-        'h3',
+        'h2',
         null,
         this.props.title
       ),
